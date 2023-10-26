@@ -228,6 +228,17 @@
         
         [self goTo:fallbackIndex animated:NO];
     } else {
+        // If this runs on load sometimes we get stuck in state where we can't scroll
+        // my assumption is trying to go to an index which doesn't exist casues
+        // an error and it just kinda silently breaks.
+        if(newIndex != 0){
+        [self goTo:newIndex  - 1 animated:NO];
+        }
+        // If segmentation is on the very first page we still need to account
+        // for the change and trigger it.
+        if(newIndex == 0) {
+        [self goTo:newIndex + 1 animated:NO];
+        }
         [self goTo:newIndex animated:NO];
     }
 }
